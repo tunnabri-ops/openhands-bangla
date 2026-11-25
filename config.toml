@@ -1,0 +1,98 @@
+# OpenHands config.toml — সেটিংস টেমপ্লেট (বাংলা মন্তব্যসহ)
+#
+# সব কি upstream config.template.toml (OpenHands ট্যাগ 0.62.0) থেকে নেওয়া —
+# কোনো কি আন্দাজে লেখা হয়নি। যেসব লাইনে # আছে, সেগুলো ডিফল্ট মান; দরকার
+# হলে # তুলে নিজের মান বসান।
+#
+# মনে রাখবেন: config.toml হলো V0 (legacy) ফরম্যাট। বর্তমান V1 Agent Canvas-এ
+# বেশিরভাগ সেটিং Settings UI বা environment variable-এ করা হয়
+# (LLM_API_KEY, LLM_MODEL — দেখুন setup-bangla.md)।
+# এই ফাইলটি V0/CLI ব্যবহার বা রেফারেন্স হিসেবে কাজে লাগবে।
+
+#################################### Core ####################################
+[core]
+# ওয়ার্কস্পেস ফোল্ডার (এজেন্ট যেখানে কোড লিখবে)
+workspace_base = "./workspace"
+
+# একটা কাজে সর্বোচ্চ কত ধাপ (iteration) চলবে
+max_iterations = 100
+
+# একটা কাজে সর্বোচ্চ খরচের সীমা (ডলার); 0.0 মানে সীমা নেই
+max_budget_per_task = 0.0
+
+# ডিফল্ট এজেন্ট
+default_agent = "CodeActAgent"
+
+# রানটাইম: docker (ডিফল্ট) বা process
+runtime = "docker"
+
+# কনটেক্সট বড় হলে ডিফল্ট LLM summarizer চালু থাকবে কি না
+enable_default_condenser = true
+
+#################################### LLM #####################################
+[llm]
+# ব্যবহার করা মডেল (Headless/CLI-তে; Web UI-তে Session Init ওভাররাইড করে)
+model = "gpt-4o"
+
+# API key — আসল key এখানে না লিখে পরিবেশ ভেরিয়েবল বা Settings UI ব্যবহার করুন
+# api_key = "sk-..."
+
+# কাস্টম API base URL (OpenRouter / লোকাল সার্ভারের জন্য)
+# base_url = "https://openrouter.ai/api/v1"
+
+# উত্তর কতটা সৃজনশীল হবে (0.0 = নিখুঁত, 1.0 = সৃজনশীল)
+temperature = 0.0
+
+# API টাইমআউট (সেকেন্ড); 0 মানে ডিফল্ট
+timeout = 0
+
+# ব্যর্থ হলে কতবার আবার চেষ্টা করবে
+num_retries = 8
+
+#################################### Agent ###################################
+[agent]
+# ব্রাউজিং টুল চালু (core-এ enable_browser-ও true হতে হবে)
+enable_browsing = true
+
+# এডিটর টুল (str_replace_editor) চালু
+enable_editor = true
+
+# Jupyter/IPython টুল চালু
+enable_jupyter = true
+
+# শেল কমান্ড টুল চালু
+enable_cmd = true
+
+# think টুল চালু
+enable_think = true
+
+# finish টুল চালু
+enable_finish = true
+
+#################################### Sandbox #################################
+[sandbox]
+# স্যান্ডবক্স টাইমআউট (সেকেন্ড)
+timeout = 120
+
+# স্যান্ডবক্সে ব্যবহারকারীর UID
+user_id = 1000
+
+# রানটাইম বানাতে বেস কন্টেইনার ইমেজ
+base_container_image = "nikolaik/python-nodejs:python3.12-nodejs22"
+
+# স্যান্ডবক্সে GPU ব্যবহার
+enable_gpu = false
+
+#################################### Security ################################
+[security]
+# কমান্ড চালানোর আগে অনুমতি চাইবে কি না
+confirmation_mode = false
+
+# সিকিউরিটি অ্যানালাইজার: 'llm' (ডিফল্ট) বা 'invariant'
+security_analyzer = "llm"
+
+#################################### Condenser ###############################
+[condenser]
+# কথোপকথনের ইতিহাস কীভাবে সংক্ষেপ করা হবে: noop (কিছু না),
+# observation_masking, recent, llm, amortized, llm_attention
+type = "noop"
